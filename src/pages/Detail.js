@@ -1,37 +1,18 @@
 import React from 'react';
-import Chance from 'chance';
 
 
 class Detail extends React.Component {
     constructor(props) {
         super(props);
 
-        const people = [];
-
-        for( let i = 0; i < 10; i++ ) {
-            people.push({
-                name: chance.first(),
-                country: chance.country({full: true})
-            });
-        }
-
-        this.state = { people };
-    }
-
-
-    buttonClicked() {
-        const newState = {
-            name: chance.first()
-        };
-
-        this.setState(newState);
+        this.state = { commits: [] };
     }
 
     render() {
         return (<div>
         {
-            this.state.people.map((person, index) => (
-                <p key={index}> hello, {person.name} from {person.country}! </p>
+            this.state.commits.map((commit, index) => (
+                <p key={index}> Some commit data here. </p>
                 ))
         }
         </div>);

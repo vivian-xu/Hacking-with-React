@@ -14,37 +14,21 @@ class Detail extends React.Component {
         };
     }
 
+    fetchFeed(type) {
+       ajax.get( `https://api.github.com/repos/facebook/react/${type}` )
+           .end((error, response) => {
+                           if (!error && response) {
+                               this.setState({ [type] : response.body });
+                           } else {
+                               console.log( `Error fetching ${type}` , error );
+                           }
+                       });
+    }
 
     componentWillMount() {
-        // commits
-        ajax.get( 'https://api.github.com/repos/facebook/react/commits' )
-            .end((error, response) => {
-                            if (!error && response) {
-                                this.setState({ commits: response.body });
-                            } else {
-                                console.log( 'There was an error frtching from Github / COMMITS' , error );
-                            }
-                        });
-
-        // forks
-        ajax.get( 'https://api.github.com/repos/facebook/react/forks' )
-            .end((error, response) => {
-                            if (!error && response) {
-                                this.setState({ forks: response.body });
-                            } else {
-                                console.log( 'There was an error frtching from Github / FORKS' , error );
-                            }
-                        });
-
-        // pulls
-        ajax.get( 'https://api.github.com/repos/facebook/react/pulls' )
-            .end((error, response) => {
-                            if (!error && response) {
-                                this.setState({ pulls: response.body });
-                            } else {
-                                console.log( 'There was an error frtching from Github / PULLS' , error );
-                            }
-                        });
+        this.fetchFeed( 'commits' );
+        this.fetchFeed( 'forks' );
+        this.fetchFeed( 'pulls' );
     }
 
     renderCommits() {

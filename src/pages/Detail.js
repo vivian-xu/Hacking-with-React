@@ -15,45 +15,6 @@ class Detail extends React.Component {
             url: 'url'
             }]
         };
-
-        // this.setNeedState = ( which ) => {
-        //     let datas = [];
-        //     let author, text, url;
-
-        // // commits
-        // if( which == 'commits' ) {
-
-        //     this.state.commits.map((commit, index) => {
-        //         author = commit.author ? commit.author.login : 'Anonymous';
-        //         text = commit.commit.message;
-        //         url = commit.html_url;
-
-        //         datas.push({author: author, text: text, url: url});
-        //     });
-        // };
-
-        // // forks
-        // this.state.forks.map((fork, index) => {
-        // author = fork.owner ? fork.owner.login : 'Anonymous';
-        // text = fork.description;
-        // url = fork.owner? fork.owner.html_url : fork.forks_url;
-
-        // datas.push({author: author, text: text, url: url});
-        // });
-
-        // // pulls
-        // this.state.pulls.map((pull, index) => {
-        // author = pull.user ? pull.user.login : 'Anonymous';
-        // text = pull.body;
-        // url = pull.html_url;
-
-        // datas.push({author: author, text: text, url: url});
-
-        // });
-
-        // this.setState({datas: datas});
-        // }
-
     }
 
 
@@ -92,10 +53,6 @@ class Detail extends React.Component {
     setNeedState( which ) {
         let datas = [];
         let author, text, url;
-        console.log(which);
-
-        // alert("hi")
-
 
         // commits
         if( which == 'commits' ) {
@@ -144,7 +101,6 @@ class Detail extends React.Component {
 
     forksHandleClicked (forks) {
         console.log("forks");
-
         this.setNeedState("forks");
     }
 
@@ -169,10 +125,9 @@ class Detail extends React.Component {
 
         return (<div>
 
-            <button value='commits' ref='commits' onClick = {this.commitsHandleClicked.bind(this)} > Show Commits </button>
-            <button value='forks' ref='forks' onClick = {this.forksHandleClicked.bind(this)}> Show Forks </button>
-            <button value='pulls' ref='pulls'onClick = {this.pullsHandleClicked.bind(this)}> Show Pulls </button>
-
+            <button onClick = {this.commitsHandleClicked.bind(this)} > Show Commits </button>
+            <button onClick = {this.forksHandleClicked.bind(this)}> Show Forks </button>
+            <button onClick = {this.pullsHandleClicked.bind(this)}> Show Pulls </button>
 
             <h3>datas</h3>
             {renderDatas}

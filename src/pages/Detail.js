@@ -31,34 +31,41 @@ class Detail extends React.Component {
         this.fetchFeed( 'pulls' );
     }
 
-    renderCommits() {
-        return this.state.commits.map((commit, index) => {
-            const author = commit.author ? commit.author.login : 'Anonymous';
+    renderModes ( mode ) {
+        console.log(mode);
+        let author, url, text;
+        let datas = [];
+        if( mode === 'commits') {
+             this.state.commits.map((commit, index) => {
+                author = commit.author ? commit.author.login : 'Anonymous';
+                url = commit.html_url;
+                text = commit.commit.message;
+                datas.push({author: author, url: url, text: text});
+            });
+        } else if (mode === 'forks' ) {
+            console.log("mode==='forks");
+
+            this.state.forks.map((fork, index) => {
+                author =  fork.owner ? fork.owner.login : 'Anonymous';
+                url = fork.html_url;
+                text = fork.created_at;
+                datas.push({author: author, url: url, text: text});
+            });
+        } else {
+            this.state.pulls.map((pull, index) => {
+                author = pull.user ? pull.user.login : 'Anonymous';
+                url = pull.html_url;
+                text = pull.body;
+                datas.push({author: author, url: url, text: text});
+            });
+        };
+
+        return (datas.map((data,index) => {
             return (<p key={index}>
-                <strong>{author}</strong>:
-                <a href={commit.html_url}>{commit.commit.message}</a>.
+                <strong> {data.author} </strong>
+                <a href={data.url}>{data.text}</a>.
             </p>);
-        });
-    }
-
-    renderForks() {
-        return this.state.forks.map((fork, index) => {
-            const owner = fork.owner ? fork.owner.login : 'Anonymous';
-            return (<p key={index}>
-                <strong>{owner}</strong>: forked to
-                <a href={fork.html_url}>{fork.html_url}</a> at {fork.created_at}.
-                </p>);
-        });
-    }
-
-    renderPulls() {
-        return this.state.pulls.map((pull, index) => {
-            const user = pull.user ? pull.user.login : 'Anonymous';
-            return (<p key={index}>
-                <strong>{user}</strong>:
-                <a href={pull.html_url}>{pull.body}</a>.
-                </p>);
-        });
+        }));
     }
 
     selectMode(event) {
@@ -69,11 +76,11 @@ class Detail extends React.Component {
         let content;
 
         if(this.state.mode === 'commits') {
-            content = this.renderCommits();
+            content = this.renderModes('commits');
         } else if (this.state.mode === 'forks') {
-            content = this.renderForks();
+            content = this.renderModes('forks');
         } else {
-            content = this.renderPulls();
+            content = this.renderModes('pulls');
         }
 
 

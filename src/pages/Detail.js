@@ -61,19 +61,8 @@ class Detail extends React.Component {
         });
     }
 
-    selectMode(mode) {
-        this.setState({ mode });
-    }
-    showCommits() {
-        this.setState({ mode: 'commits' });
-    }
-
-    showForks() {
-        this.setState({ mode: 'forks' });
-    }
-
-    showPulls() {
-        this.setState({ mode: 'pulls' });
+    selectMode(event) {
+        this.setState({ mode: event.currentTarget.dataset.mode });
     }
 
     render() {
@@ -90,9 +79,13 @@ class Detail extends React.Component {
 
         return (<div>
 
-            <button onClick = {this.selectMode.bind(this, 'commits')} > Show Commits </button>
-            <button onClick = {this.selectMode.bind(this, 'forks')}> Show Forks </button>
-            <button onClick = {this.selectMode.bind(this, 'pulls')}> Show Pulls </button>
+            <button onClick = {this.selectMode.bind(this)} data-mode="commits" > Show Commits </button>
+
+
+            <button onClick = {this.selectMode.bind(this)} data-mode="forks"> Show Forks </button>
+
+
+            <button onClick = {this.selectMode.bind(this)} data-mode="pulls"> Show Pulls </button>
 
             {content}
 

@@ -7,13 +7,10 @@ class Detail extends React.Component {
         super(props);
 
         this.state = {
+            mode: 'commits',
             commits: [],
             forks: [],
-            pulls: [],
-            datas: [ {author: 'AUTHOR',
-            text: 'TEXT',
-            url: 'url'
-            }]
+            pulls: []
         };
     }
 
@@ -50,87 +47,68 @@ class Detail extends React.Component {
                         });
     }
 
-    setNeedState( which ) {
-        let datas = [];
-        let author, text, url;
-
-        // commits
-        if( which == 'commits' ) {
-
-            console.log('COMMITS');
-            this.state.commits.map((commit, index) => {
-                author = commit.author ? commit.author.login : 'Anonymous';
-                text = commit.commit.message;
-                url = commit.html_url;
-
-                datas.push({author: author, text: text, url: url});
-            });
-        };
-
-        // forks
-        if( which == 'forks' ) {
-            this.state.forks.map((fork, index) => {
-                author = fork.owner ? fork.owner.login : 'Anonymous';
-                text = fork.description;
-                url = fork.owner? fork.owner.html_url : fork.forks_url;
-
-                datas.push({author: author, text: text, url: url});
-            });
-        };
-
-        // pulls
-        if( which == 'pulls' ) {
-            this.state.pulls.map((pull, index) => {
-                author = pull.user ? pull.user.login : 'Anonymous';
-                text = pull.body;
-                url = pull.html_url;
-
-                datas.push({author: author, text: text, url: url});
-
-            });
-        };
-
-        this.setState({datas: datas});
+    renderCommits() {
+        return this.state.commits.map((commit, index) => {
+            const author = commit.author ? commit.author.login : 'Anonymous';
+            return (<p key={index}>
+                <strong>{author}</strong>:
+                <a href={commit.html_url}>{commit.commit.message}</a>.
+            </p>);
+        });
     }
 
-    commitsHandleClicked (commits) {
-        console.log("commits");
-        this.setNeedState("commits");
+    renderForks() {
+        return this.state.forks.map((fork, index) => {
+            const owner = fork.owner ? fork.owner.login : 'Anonymous';
+            return (<p key={index}>
+                <strong>{owner}</strong>: forked to
+                <a href={fork.html_url}>{fork.html_url}</a> at {fork.created_at}.
+                </p>);
+        });
     }
 
-
-    forksHandleClicked (forks) {
-        console.log("forks");
-        this.setNeedState("forks");
+    renderPulls() {
+        return this.state.pulls.map((pull, index) => {
+            const user = pull.user ? pull.user.login : 'Anonymous';
+            return (<p key={index}>
+                <strong>{user}</strong>:
+                <a href={pull.html_url}>{pull.body}</a>.
+                </p>);
+        });
     }
 
-
-    pullsHandleClicked (pulls) {
-        console.log("pulls");
-        this.setNeedState("pulls");
+    showCommits() {
+        this.setState({ mode: 'commits' });
     }
 
+    showForks() {
+        this.setState({ mode: 'forks' });
+    }
+
+    showPulls() {
+        this.setState({ mode: 'pulls' });
+    }
 
     render() {
+        let content;
 
-        var renderDatas = this.state.datas.map((data, index) => {
+        if(this.state.mode === 'commits') {
+            content = this.renderCommits();
+        } else if (this.state.mode === 'forks') {
+            content = this.renderForks();
+        } else {
+            content = this.renderPulls();
+        }
 
-            return (
-                <p key={index}>
-                    <strong> {data.author} :  </strong>
-                    <a href = {data.url} > {data.text} </a>
-                </p>
-            )
-        })
 
         return (<div>
 
-            <button onClick = {this.commitsHandleClicked.bind(this)} > Show Commits </button>
-            <button onClick = {this.forksHandleClicked.bind(this)}> Show Forks </button>
-            <button onClick = {this.pullsHandleClicked.bind(this)}> Show Pulls </button>
+            <button onClick = {this.showCommits.bind(this)} > Show Commits </button>
+            <button onClick = {this.showForks.bind(this)}> Show Forks </button>
+            <button onClick = {this.showPulls.bind(this)}> Show Pulls </button>
 
-            <h3>datas</h3>
-            {renderDatas}
+            {content}
+
         </div>);
     }
 }

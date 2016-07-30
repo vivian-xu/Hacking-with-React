@@ -15,7 +15,7 @@ ReactDOM.render(
         onUpdate={() => window.scrollTo(0, 0)}>
 
         <Route path="/" component={ List } />
-        <Route path="/react" component={ Detail } />
+        <Route path="/detail/:repo" component={ Detail } />
     </Router>,
 
     document.getElementById('app')

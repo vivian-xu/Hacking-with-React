@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import { Router } from 'react-router';
 import createHistory from 'history/lib/createHashHistory';
 
+import { IndexLink, link } from 'react-router';
+
 import routes from './routes';
 
 ReactDOM.render(

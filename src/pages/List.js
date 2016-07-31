@@ -11,7 +11,6 @@ class List extends React.Component {
                     <IndexLink to="/" activeClassName="active" >
                         Home
                     </IndexLink>
-                    {this.props.params.user}
                 </p>
                 <p> Please choose a reponsitory from the list below. </p>
                 <ul>

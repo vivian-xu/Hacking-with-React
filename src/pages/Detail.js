@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import ajax from 'superagent';
 
 
@@ -62,8 +63,17 @@ class Detail extends React.Component {
         };
 
         return (datas.map((data,index) => {
+            let userUrl = `/user/${data.author}`;
+            let linkAnonymous
+
+            if( data.author === 'Anonymous' ) {
+                linkAnonymous = (<strong> {data.author} : </strong>)
+            } else {
+                linkAnonymous = <Link to={userUrl} > {data.author} : </Link>
+            }
+
             return (<p key={index}>
-                <strong> {data.author} </strong>
+                {linkAnonymous}
                 <a href={data.url}>{data.text}</a>.
             </p>);
         }));

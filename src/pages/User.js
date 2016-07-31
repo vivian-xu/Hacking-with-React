@@ -6,45 +6,40 @@ class User extends React.Component {
     constructor(props) {
         super(props);
 
-
         this.state = {
-            users: []
+            events: []
         }
     }
 
-    fetchFeed(name) {
+    componentWillMount (){
+
         const baseURL = 'https://api.github.com/users';
-        ajax.get(`${baseURL}/${name}/events`)
+        ajax.get(`${baseURL}/${this.props.params.user}/events`)
             .end((error, response) => {
-                if( !error && response ) {
-                    this.setState({users: response.body });
-                    console.log(this.state.users[0].actor.login);
+                    if( !error && response ) {
+                        this.setState({events: response.body });
                 } else {
                     console.error(`Error fetching ${name} `, error);
-                }
-            });
-    }
-
-    componentWillMount (){
-       const str = window.location.hash;
-       const ptn = /user\/(.*)/g;
-
-       let ptnName = ptn.exec(str)[1];
-
-       this.fetchFeed( ptnName );
+             }
+        });
     }
 
     render() {
         return (
-            <div>
-                {this.state.users.map((user, index) => {
+            <ul>
+                <p> Content for { this.props.params.user } to go here. </p>
+                {this.state.events.map((event, index) => {
+                    const eventType = event.type;
+                    const repoName = event.repo.name;
+                    const createDate = event.created_at;
+
                     return (
-                        <p key={index}>
-                            id: {user.id} , type:  {user.type}, time :  {user.created_at}
-                        </p>
+                        <li key={index} >
+                            <strong> {repoName} </strong> : {eventType} at {createDate}.
+                        </li>
                     );
                 })}
-            </div>
+            </ul>
         );
     }
 }

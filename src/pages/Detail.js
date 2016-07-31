@@ -63,13 +63,12 @@ class Detail extends React.Component {
         };
 
         return (datas.map((data,index) => {
-            let userUrl = `/user/${data.author}`;
             let linkAnonymous
 
             if( data.author === 'Anonymous' ) {
                 linkAnonymous = (<strong> {data.author} : </strong>)
             } else {
-                linkAnonymous = <Link to={userUrl} > {data.author} : </Link>
+                linkAnonymous = <Link to={ `/user/${data.author}` } > {data.author} : </Link>
             }
 
             return (<p key={index}>
